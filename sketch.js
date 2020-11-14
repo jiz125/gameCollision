@@ -18,12 +18,12 @@ function setup() {
 
 
   for (let i = 0; i < 3; i++) { //white bubble
-    bubbles[i] = new Bubble(objectX[i], objectY[i]);
+    bubbles[i] = new Bubble(objectX[i], objectY[i],10,255);
   }
 
 
   for (j = 0; j < 3; j++) { //black bubble
-    bubbles2[j] = new Bubble(object2X[j], object2Y[j])
+    bubbles2[j] = new Bubble(object2X[j], object2Y[j],10,0)
   }
 
   ava1 = new Avator();
@@ -44,17 +44,20 @@ function draw() {
 
 
     bubbles[i].body();
+    bubbles[i].checkCollision(ava1.x,ava1.y,0);
   }
 
   for (j = 0; j < 3; j++) { //black bubble
 
-    bubbles2[j].body2();
+    bubbles2[j].body();
+    bubbles2[j].checkCollision(ava1.x,ava1.y,255);
+
   }
 
   ava1.body();
   ava1.move();
-  ava1.checkCollison()
-  ava1.checkCollison2()
+  // ava1.checkCollison()
+  // ava1.checkCollison2()
 
 
 
@@ -82,19 +85,27 @@ function keyPressed() {
 
 
 class Bubble {
-  constructor(x, y, r) {
+  constructor(x, y, r,c) {
     this.x = x;
     this.y = y;
     this.r = 60;
+    this.c =color(c);
   }
 
   body() {
-    fill(255);
+    fill(this.c);
     ellipse(this.x, this.y, this.r);
   }
-  body2() {
-    fill(0);
-    ellipse(this.x, this.y, this.r);
+  // body2() {
+  //   fill(c2);
+  //   ellipse(this.x, this.y, this.r);
+  // }
+  checkCollision(a,b,newColor){
+    if(dist(this.x,this.y,a,b)<this.r){
+      this.c = newColor;
+    }else{
+      this.c =abs(newColor-255);
+    }
   }
 }
 
@@ -150,49 +161,49 @@ class Avator {
 
   //////set the boundry for each circle//////////////
 
-  checkCollison() {
-
-    // for (i = 0; i < 3; i++) {
-
-    let d = dist(this.x, this.y, bubbles[0].x, bubbles[0].y);
-    let d2 = dist(this.x, this.y, bubbles[1].x, bubbles[1].y);
-    let d3 = dist(this.x, this.y, bubbles[2].x, bubbles[2].y)
-
-
-    if (d < 50 || d2 < 50 || d3 < 50) {
-      // move = move * -1;
-      collide = true
-      // move = !move ;
-      //   console.log('bumped')
-    } else {
-      collide = false;
-    }
-  }
-
-
+  // checkCollison() {
+  //   //
+  //   // // for (i = 0; i < 3; i++) {
+  //   //
+  //   // let d = dist(this.x, this.y, bubbles[0].x, bubbles[0].y);
+  //   // let d2 = dist(this.x, this.y, bubbles[1].x, bubbles[1].y);
+  //   // let d3 = dist(this.x, this.y, bubbles[2].x, bubbles[2].y)
+  //   //
+  //   //
+  //   // if (d < 50 || d2 < 50 || d3 < 50) {
+  //   //   // move = move * -1;
+  //   //   collide = true
+  //   //   // move = !move ;
+  //   //   //   console.log('bumped')
+  //   // } else {
+  //   //   collide = false;
+  //   // }
+  // }
 
 
 
-  checkCollison2() {
 
-
-    let d2d = dist(this.x, this.y,
-      bubbles2[0].x, bubbles2[0].y);
-    let d2d1 = dist(this.x, this.y,
-      bubbles2[1].x, bubbles2[1].y);
-    let d2d2 = dist(this.x, this.y,
-      bubbles2[2].x, bubbles2[2].y);
-
-    if (d2d < 50 || d2d1 < 50 || d2d2 < 50) {
-      // move = move * -1;
-      collide = true
-      // console.log('bumped')
-    } else {
-      // move = 3;
-      collide = false;
-
-      // console.log('no bumped')
-    }
-
-  }
+  //
+  // checkCollison2() {
+  //   //
+  //   //
+  //   // let d2d = dist(this.x, this.y,
+  //   //   bubbles2[0].x, bubbles2[0].y);
+  //   // let d2d1 = dist(this.x, this.y,
+  //   //   bubbles2[1].x, bubbles2[1].y);
+  //   // let d2d2 = dist(this.x, this.y,
+  //   //   bubbles2[2].x, bubbles2[2].y);
+  //   //
+  //   // if (d2d < 50 || d2d1 < 50 || d2d2 < 50) {
+  //   //   // move = move * -1;
+  //   //   collide = true
+  //   //   // console.log('bumped')
+  //   // } else {
+  //   //   // move = 3;
+  //   //   collide = false;
+  //   //
+  //   //   // console.log('no bumped')
+  //   // }
+  //
+  // }
 }
